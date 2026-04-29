@@ -1,0 +1,782 @@
+;<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ultimate Rizz Pitch 💜</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --purple: #b87dff;
+  --lavender: #d4b0ff;
+  --green: #c8f06e;
+  --peach: #ffb997;
+  --dark: #1a1025;
+  --mid: #2e1f4a;
+  --text: #f0e8ff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--dark);
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  overflow-x: hidden;
+  cursor: none;
+}
+.cursor {
+  width:20px; height:20px;
+  background: var(--purple);
+  border-radius:50%;
+  position:fixed; top:0; left:0;
+  pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.08s;
+  mix-blend-mode:screen;
+}
+.slide {
+  min-height:100vh; display:none;
+  flex-direction:column; justify-content:center; align-items:center;
+  padding:80px 24px 60px; position:relative; overflow:hidden;
+  animation: fadeSlide 0.45s ease;
+}
+.slide.active { display:flex; }
+@keyframes fadeSlide {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.slide::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity:0.3;
+}
+
+/* topbar */
+.topbar {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  display:flex; justify-content:flex-end; align-items:center;
+  padding:12px 20px;
+  background:rgba(26,16,37,0.7);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.lang-btn {
+  background:rgba(184,125,255,0.12);
+  border:1px solid rgba(184,125,255,0.35);
+  color:var(--lavender);
+  font-family:'Space Mono',monospace;
+  font-size:10px; font-weight:700;
+  letter-spacing:2px; text-transform:uppercase;
+  padding:7px 16px; border-radius:30px;
+  cursor:none; transition:all 0.2s;
+}
+.lang-btn:hover { background:rgba(184,125,255,0.25); box-shadow:0 0 18px rgba(184,125,255,0.3); }
+
+/* progress + nav */
+.progress {
+  position:fixed; top:0; left:0; height:3px;
+  background:linear-gradient(90deg,var(--purple),var(--green));
+  transition:width 0.4s ease; z-index:1000;
+}
+.nav-dots {
+  position:fixed; right:14px; top:50%;
+  transform:translateY(-50%);
+  display:flex; flex-direction:column; gap:9px; z-index:100;
+}
+.nav-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  transition:all 0.3s; cursor:none;
+}
+.nav-dot.active { background:var(--purple); transform:scale(1.6); box-shadow:0 0 8px var(--purple); }
+.nav-btn {
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.45);
+  width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; cursor:none; transition:all 0.2s;
+  position:fixed; bottom:24px; z-index:100;
+}
+.nav-btn:hover { background:rgba(255,255,255,0.1); color:white; }
+.nav-btn:disabled { opacity:0.12; pointer-events:none; }
+.nav-prev { left:24px; }
+.nav-next { right:24px; }
+
+/* shared */
+.slide-label { font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--purple); margin-bottom:13px; }
+.slide-title { font-family:'Syne',sans-serif; font-size:clamp(32px,6.5vw,64px); font-weight:800; margin-bottom:26px; line-height:1.05; text-align:center; }
+
+.btn-yes, .btn-no, .btn-start {
+  border:none; font-family:'Space Mono',monospace;
+  font-weight:700; border-radius:50px; cursor:none;
+  letter-spacing:1.5px; text-transform:uppercase; transition:all 0.2s; margin:7px;
+}
+.btn-yes, .btn-start {
+  background:var(--green); color:var(--dark);
+  padding:15px 42px; font-size:13px;
+  box-shadow:0 0 26px rgba(200,240,110,0.32);
+}
+.btn-yes:hover, .btn-start:hover { transform:scale(1.06); box-shadow:0 0 46px rgba(200,240,110,0.6); }
+.btn-no {
+  background:transparent; color:rgba(255,255,255,0.32);
+  border:1px solid rgba(255,255,255,0.13);
+  padding:15px 42px; font-size:13px;
+}
+.btn-no:hover { background:rgba(255,255,255,0.05); }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
+@keyframes wiggle { 0%,100%{transform:rotate(-6deg)} 50%{transform:rotate(6deg)} }
+@keyframes float {
+  from { transform:translateY(108vh) rotate(0deg); opacity:0.12; }
+  to   { transform:translateY(-8vh) rotate(360deg); opacity:0; }
+}
+@keyframes pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes slideDown {
+  from { transform:translateX(-50%) translateY(-120%); opacity:0; }
+  to   { transform:translateX(-50%) translateY(0);    opacity:1; }
+}
+@keyframes slideUp {
+  from { transform:translateX(-50%) translateY(0);    opacity:1; }
+  to   { transform:translateX(-50%) translateY(-120%); opacity:0; }
+}
+.refresh-toast {
+  position:fixed; top:72px; left:50%; transform:translateX(-50%);
+  z-index:9000; pointer-events:none;
+  background:rgba(26,16,37,0.92);
+  border:1px solid var(--peach);
+  border-radius:18px; padding:14px 22px;
+  text-align:center; max-width:88vw;
+  box-shadow:0 0 32px rgba(255,185,151,0.3);
+  animation: slideDown 0.45s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+.refresh-toast.hiding { animation: slideUp 0.4s ease forwards; }
+.refresh-toast-emoji { font-size:28px; display:block; margin-bottom:5px; }
+.refresh-toast-text  { font-size:12px; color:var(--peach); font-family:'Space Mono',monospace; line-height:1.6; }
+@keyframes glow {
+  from{filter:drop-shadow(0 0 18px rgba(200,240,110,0.3))}
+  to  {filter:drop-shadow(0 0 52px rgba(200,240,110,0.75))}
+}
+
+/* ---------- SLIDE 1 HERO ---------- */
+#s1 {
+  background:radial-gradient(ellipse at 20% 50%,#3b1a6e 0%,var(--dark) 60%),
+             radial-gradient(ellipse at 80% 20%,#1f0d40 0%,transparent 50%);
+  text-align:center;
+}
+.hero-badge {
+  background:var(--green); color:var(--dark); font-size:10px; font-weight:700;
+  letter-spacing:3px; padding:5px 16px; border-radius:20px; margin-bottom:26px;
+  text-transform:uppercase; display:inline-block; animation:pulse 2s infinite;
+}
+.hero-title {
+  font-family:'Syne',sans-serif; font-size:clamp(50px,12vw,122px);
+  font-weight:800; line-height:0.88; letter-spacing:-3px; margin-bottom:18px;
+  background:linear-gradient(135deg,#fff 0%,var(--lavender) 50%,var(--purple) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.hero-sub { font-size:clamp(13px,2vw,17px); color:var(--green); margin-bottom:10px; }
+.hero-sub2 { font-size:11px; color:rgba(255,255,255,0.32); font-style:italic; margin-bottom:42px; }
+.floaters { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.floater { position:absolute; font-size:24px; animation:float linear infinite; opacity:0.11; }
+
+/* ---------- SLIDE 2 MARKET ---------- */
+#s2 { background:linear-gradient(160deg,#0d0d1a 0%,#1a0d2e 50%,#0a1a0a 100%); }
+.market-box {
+  max-width:660px; width:100%;
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+  border-radius:22px; padding:38px; text-align:left; position:relative; overflow:hidden;
+}
+.market-box::before {
+  content:''; position:absolute; top:-50%; right:-20%;
+  width:280px; height:280px;
+  background:radial-gradient(circle,rgba(184,125,255,0.13) 0%,transparent 70%); border-radius:50%;
+}
+.market-headline { font-family:'Syne',sans-serif; font-size:24px; font-weight:800; color:var(--peach); margin-bottom:13px; }
+.market-text { font-size:13px; line-height:2; color:rgba(255,255,255,0.56); margin-bottom:16px; }
+.market-bold { color:var(--green); font-weight:700; font-size:14px; }
+.tag { display:inline-block; background:rgba(184,125,255,0.1); border:1px solid rgba(184,125,255,0.26); color:var(--lavender); font-size:10px; padding:4px 11px; border-radius:20px; margin:3px; }
+
+/* ---------- SLIDE 3 METRICS ---------- */
+#s3 { background:radial-gradient(ellipse at 70% 30%,#1a0d2e 0%,#080812 70%); }
+.metrics-container { width:100%; max-width:660px; }
+.metric-row { margin-bottom:24px; opacity:0; transform:translateX(-16px); transition:all 0.5s ease; }
+.metric-row.visible { opacity:1; transform:translateX(0); }
+.metric-label { display:flex; justify-content:space-between; margin-bottom:7px; font-size:12px; color:rgba(255,255,255,0.62); }
+.metric-pct { color:var(--green); font-weight:700; }
+.metric-bar-bg { background:rgba(255,255,255,0.06); border-radius:50px; height:13px; overflow:hidden; }
+.metric-bar { height:100%; border-radius:50px; width:0%; transition:width 1.3s cubic-bezier(0.23,1,0.32,1); }
+.metric-note { text-align:center; font-size:10px; color:rgba(255,255,255,0.17); margin-top:24px; font-style:italic; }
+
+/* ---------- SLIDE 4 GREEN FLAGS ---------- */
+#s4 { background:linear-gradient(150deg,#0a1a0a 0%,#0d1a10 50%,#0d0d1a 100%); }
+.flags-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(155px,1fr)); gap:13px; max-width:760px; margin-top:22px; }
+.flag-card {
+  background:rgba(200,240,110,0.04); border:1px solid rgba(200,240,110,0.14);
+  border-radius:16px; padding:20px 16px; text-align:center; transition:all 0.3s;
+}
+.flag-card:hover { transform:translateY(-6px); border-color:var(--green); background:rgba(200,240,110,0.09); box-shadow:0 14px 28px rgba(200,240,110,0.1); }
+.flag-icon { font-size:28px; margin-bottom:9px; display:block; }
+.flag-label { font-size:11px; color:var(--green); font-weight:700; margin-bottom:6px; }
+.flag-desc { font-size:11px; color:rgba(255,255,255,0.43); line-height:1.7; }
+
+/* ---------- SLIDE 5 PERKS ---------- */
+#s5 { background:linear-gradient(135deg,#0d1a1a 0%,#0d0d1a 50%,#1a0d0d 100%); }
+.perks-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(185px,1fr)); gap:16px; max-width:780px; margin-top:22px; }
+.perk-card {
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
+  border-radius:18px; padding:26px 20px; text-align:center; transition:all 0.3s;
+}
+.perk-card:hover { transform:translateY(-7px); border-color:var(--purple); background:rgba(184,125,255,0.07); box-shadow:0 16px 34px rgba(184,125,255,0.12); }
+.perk-emoji { font-size:32px; margin-bottom:12px; display:block; }
+.perk-name { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; margin-bottom:8px; color:var(--lavender); }
+.perk-desc { font-size:11px; line-height:1.8; color:rgba(255,255,255,0.46); }
+
+/* ---------- SLIDE 6 TIERS ---------- */
+#s6 { background:radial-gradient(ellipse at 40% 60%,#1a0d2e 0%,#08080f 70%); }
+.tiers-row { display:flex; gap:14px; max-width:800px; width:100%; margin-top:22px; flex-wrap:wrap; justify-content:center; }
+.tier-card { flex:1; min-width:195px; border-radius:20px; padding:26px 20px; text-align:center; border:1px solid; transition:all 0.3s; }
+.tier-card:hover { transform:translateY(-8px) scale(1.02); }
+.tier-bronze { background:rgba(205,127,50,0.07); border-color:rgba(205,127,50,0.28); }
+.tier-silver { background:rgba(192,192,192,0.07); border-color:rgba(192,192,192,0.28); }
+.tier-gold   { background:rgba(255,215,0,0.07); border-color:rgba(255,215,0,0.28); box-shadow:0 0 28px rgba(255,215,0,0.08); }
+.tier-name { font-family:'Syne',sans-serif; font-size:44px; margin-bottom:8px; display:block; }
+.tier-label { font-family:'Syne',sans-serif; font-size:16px; font-weight:800; margin-bottom:6px; }
+.tier-bronze .tier-label { color:#cd7f32; }
+.tier-silver .tier-label { color:#c0c0c0; }
+.tier-gold   .tier-label { color:#ffd700; animation:pulse 1.5s infinite; }
+.tier-sub { font-size:10px; color:rgba(255,255,255,0.28); margin-bottom:14px; letter-spacing:2px; text-transform:uppercase; }
+.tier-feature { font-size:11px; color:rgba(255,255,255,0.52); line-height:2; text-align:left; }
+
+/* ---------- SLIDE 7 COMPARE ---------- */
+#s7 { background:radial-gradient(ellipse at 30% 70%,#1a1a0d 0%,#0d0d1a 60%); }
+.compare-table { width:100%; max-width:680px; border-collapse:collapse; margin-top:24px; }
+.compare-table th { padding:13px 16px; font-family:'Syne',sans-serif; font-size:12px; font-weight:800; text-align:left; border-bottom:2px solid rgba(255,255,255,0.08); }
+.compare-table th:nth-child(2) { color:var(--green); }
+.compare-table th:nth-child(3) { color:rgba(255,255,255,0.22); }
+.compare-table td { padding:13px 16px; font-size:12px; border-bottom:1px solid rgba(255,255,255,0.04); }
+.compare-table tr:hover td { background:rgba(255,255,255,0.02); }
+.compare-table td:first-child { color:rgba(255,255,255,0.42); font-size:10px; letter-spacing:1px; text-transform:uppercase; }
+.compare-table td:nth-child(2) { color:var(--green); font-weight:700; }
+.compare-table td:nth-child(3) { color:rgba(255,255,255,0.2); }
+
+/* ---------- SLIDE 8 TESTIMONIAL ---------- */
+#s8 { background:radial-gradient(ellipse at 50% 50%,#1a0d2e 0%,#060610 70%); text-align:center; }
+.testimonial-avatar { width:108px; height:108px; border-radius:50%; border:4px solid var(--green); font-size:54px; display:flex; align-items:center; justify-content:center; margin:0 auto 26px; box-shadow:0 0 34px rgba(200,240,110,0.26); background:var(--mid); }
+.testimonial-quote { font-family:'Syne',sans-serif; font-size:clamp(17px,3.2vw,28px); font-weight:700; max-width:560px; line-height:1.5; margin-bottom:20px; }
+.testimonial-source { font-size:11px; color:var(--purple); letter-spacing:2px; }
+
+/* ---------- SLIDE 9 FAQ ---------- */
+#s9 { background:linear-gradient(160deg,#0d0d1a,#1a0a0a); }
+.faq-list { max-width:660px; width:100%; margin-top:22px; }
+.faq-item { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:20px 22px; margin-bottom:12px; transition:all 0.3s; }
+.faq-item:hover { background:rgba(184,125,255,0.06); border-color:rgba(184,125,255,0.22); }
+.faq-q { font-size:12px; color:var(--lavender); font-weight:700; margin-bottom:7px; }
+.faq-a { font-size:12px; color:rgba(255,255,255,0.48); line-height:1.9; }
+.faq-a .hi { color:var(--green); font-weight:700; }
+
+/* ---------- SLIDE 10 ROADMAP ---------- */
+#s10 { background:linear-gradient(160deg,#0d0d1a,#1a0d1a); }
+.roadmap { max-width:560px; margin-top:26px; width:100%; }
+.road-step { display:flex; gap:16px; margin-bottom:22px; align-items:flex-start; opacity:0; transform:translateX(-24px); transition:all 0.5s; }
+.road-step.visible { opacity:1; transform:translateX(0); }
+.step-num { width:40px; height:40px; background:var(--purple); border-radius:11px; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-weight:800; font-size:16px; flex-shrink:0; color:white; }
+.step-title { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:var(--green); margin-bottom:4px; }
+.step-desc { font-size:12px; color:rgba(255,255,255,0.46); line-height:1.8; }
+.road-line { width:2px; height:16px; background:rgba(255,255,255,0.07); margin-left:19px; margin-bottom:6px; }
+
+/* ---------- SLIDE 11 RISK ---------- */
+#s11 { background:radial-gradient(ellipse at 60% 40%,#1a0d0d 0%,#0d0d1a 70%); }
+.disclaimer-box { max-width:660px; width:100%; background:rgba(255,255,255,0.03); border:1px solid rgba(255,90,90,0.18); border-radius:18px; padding:34px 30px; }
+.disclaimer-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:800; color:var(--peach); margin-bottom:16px; }
+.disclaimer-text { font-size:12px; line-height:2.2; color:rgba(255,255,255,0.44); }
+.disclaimer-text strong { color:rgba(255,255,255,0.72); }
+.d-green { color:var(--green); }
+.d-peach { color:var(--peach); }
+.disclaimer-asterisk { font-size:10px; color:rgba(255,255,255,0.18); margin-top:14px; font-style:italic; }
+
+/* ---------- SLIDE 12 CTA ---------- */
+#s12 { background:radial-gradient(ellipse at 50% 40%,#2e0d5e 0%,#0a0a1a 60%); text-align:center; }
+.cta-title { font-family:'Syne',sans-serif; font-size:clamp(56px,13vw,132px); font-weight:800; line-height:0.87; letter-spacing:-4px; margin-bottom:16px; background:linear-gradient(135deg,#fff 0%,var(--purple) 60%,var(--peach) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.cta-sub { font-size:13px; color:rgba(255,255,255,0.36); margin-bottom:44px; }
+
+/* ---------- NO SLIDES ---------- */
+.no-slide { text-align:center; background:radial-gradient(ellipse at 50% 50%,#1a0d0d 0%,#0d0808 70%); }
+.no-title { font-family:'Syne',sans-serif; font-size:clamp(34px,7.5vw,80px); font-weight:800; color:var(--peach); margin-bottom:13px; line-height:1; }
+.no-sub { font-size:13px; color:rgba(255,255,255,0.4); margin-bottom:34px; line-height:2.3; }
+.meme-emoji { font-size:clamp(58px,13vw,105px); margin-bottom:16px; animation:wiggle 0.45s infinite; display:block; }
+.no-btn-row { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:4px; }
+.btn-no.s1 { font-size:12px; padding:12px 32px; }
+.btn-no.s2 { font-size:10px; padding:10px 24px; }
+.btn-no.s3 { font-size:8px; padding:8px 16px; opacity:0.65; }
+.btn-no.s4 { font-size:7px; padding:6px 12px; opacity:0.4; }
+.fake-load-label { font-size:10px; color:rgba(255,255,255,0.28); letter-spacing:2px; margin-bottom:5px; }
+.fake-load-bar { width:100%; max-width:380px; height:11px; background:rgba(255,255,255,0.06); border-radius:20px; overflow:hidden; margin:0 auto 18px; }
+.fake-load-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,var(--purple),var(--peach)); width:0%; transition:width 2.5s ease; }
+.bargain-grid { display:flex; flex-wrap:wrap; gap:11px; justify-content:center; max-width:580px; margin:14px auto; }
+.bargain-card { background:rgba(200,240,110,0.07); border:1px solid rgba(200,240,110,0.22); border-radius:13px; padding:13px 16px; font-size:12px; color:rgba(255,255,255,0.56); text-align:center; flex:1; min-width:130px; }
+.bargain-card strong { display:block; color:var(--green); font-size:13px; margin-bottom:3px; }
+
+/* ---------- FINAL ---------- */
+#sfinal { background:radial-gradient(ellipse at 50% 40%,#0d2e1a 0%,#060d10 60%); text-align:center; }
+.final-title { font-family:'Syne',sans-serif; font-size:clamp(48px,11vw,112px); font-weight:800; background:linear-gradient(135deg,var(--green) 0%,#a0ff60 50%,var(--lavender) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-3px; line-height:0.87; margin-bottom:16px; animation:glow 2s infinite alternate; }
+.final-sub { font-size:13px; color:rgba(255,255,255,0.43); line-height:2.3; margin-bottom:16px; }
+.final-note { font-size:10px; color:rgba(255,255,255,0.16); }
+
+@media(max-width:600px){
+  .nav-dots{display:none;}
+  .perks-grid,.flags-grid{grid-template-columns:1fr 1fr;}
+  .tiers-row{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="progress" id="progress"></div>
+
+<div class="topbar">
+  <button class="lang-btn" id="langBtn" onclick="toggleLang()">🇹🇭 ภาษาไทย</button>
+</div>
+
+<div class="nav-dots" id="navDots"></div>
+<button class="nav-btn nav-prev" id="prevBtn" onclick="changeSlide(-1)">←</button>
+<button class="nav-btn nav-next" id="nextBtn" onclick="changeSlide(1)">→</button>
+
+<!-- ======================== SLIDE 1 HERO ======================== -->
+<div class="slide active" id="s1">
+  <div class="floaters" id="floaters"></div>
+  <div class="hero-badge" data-en="🔥 Limited Edition Offer · Season 2025" data-th="🔥 ออฟเฟอร์พิเศษ · Season 2025">🔥 Limited Edition Offer · Season 2025</div>
+  <h1 class="hero-title">THE ULTIMATE<br>RIZZ PITCH</h1>
+  <p class="hero-sub" data-en="Why dating me is the only W you need this year." data-th="ทำไมการคบผมถึงเป็น W เดียวที่คุณต้องการปีนี้">Why dating me is the only W you need this year.</p>
+  <p class="hero-sub2" data-en="Certified Main Character Energy Only. Not financial advice. But kinda is." data-th="Certified Main Character Energy เท่านั้น. ไม่ใช่คำแนะนำทางการเงิน. แต่ก็คือนั่นแหละ.">Certified Main Character Energy Only. Not financial advice. But kinda is.</p>
+  <button class="btn-start" onclick="changeSlide(1)" data-en="Let's go 🚀" data-th="ไปเลย 🚀">Let's go 🚀</button>
+</div>
+
+<!-- ======================== SLIDE 2 MARKET ======================== -->
+<div class="slide" id="s2">
+  <p class="slide-label" data-en="// slide 01 — market analysis" data-th="// สไลด์ 01 — วิเคราะห์ตลาด">// slide 01 — market analysis</p>
+  <h2 class="slide-title" data-en="The Current Market Status 📉" data-th="สถานการณ์ตลาดตอนนี้ 📉">The Current Market Status 📉</h2>
+  <div class="market-box">
+    <p class="market-headline" data-en="Everyone else is MID fr fr." data-th="คนอื่นๆ MID หมดเลยจริงๆ">Everyone else is MID fr fr.</p>
+    <p class="market-text" data-en="Let's be real bestie — the dating pool rn is fully giving NPC energy. Ghosting is at an all-time high. Mixed signals? Chronic condition. Dry texts? An epidemic." data-th="พูดตรงๆ เลย — ตลาดหาคู่ตอนนี้ให้พลังงาน NPC เต็มๆ การ ghost กันสูงเป็นประวัติการณ์ สัญญาณปะปน? โรคเรื้อรัง. ข้อความแห้งๆ? ระบาดหนักมาก">Let's be real bestie — the dating pool rn is fully giving NPC energy. Ghosting is at an all-time high. Mixed signals? Chronic condition. Dry texts? An epidemic.</p>
+    <p class="market-bold" data-en="It's time for a serious upgrade. No cap. 💅" data-th="ถึงเวลา upgrade จริงๆ แล้ว. No cap. 💅">It's time for a serious upgrade. No cap. 💅</p>
+    <br>
+    <span class="tag">#ghosting</span><span class="tag">#mixedsignals</span><span class="tag">#hru?wyd?</span><span class="tag">#midvibes</span><span class="tag">#npcbehavior</span>
+  </div>
+</div>
+
+<!-- ======================== SLIDE 3 METRICS ======================== -->
+<div class="slide" id="s3">
+  <p class="slide-label" data-en="// slide 02 — performance data" data-th="// สไลด์ 02 — ข้อมูลสถิติ">// slide 02 — performance data</p>
+  <h2 class="slide-title" data-en="My Stats Hit Different 📊" data-th="สถิติของผม Hit Different 📊">My Stats Hit Different 📊</h2>
+  <div class="metrics-container" id="metricsContainer">
+    <div class="metric-row" data-delay="0"><div class="metric-label"><span data-en="✨ Rizz / Aura" data-th="✨ Rizz / ออร่า">✨ Rizz / Aura</span><span class="metric-pct">95%</span></div><div class="metric-bar-bg"><div class="metric-bar" data-width="95" style="background:linear-gradient(90deg,#b87dff,#d4b0ff)"></div></div></div>
+    <div class="metric-row" data-delay="160"><div class="metric-label"><span data-en="🐸 Meme Quality" data-th="🐸 คุณภาพมีม">🐸 Meme Quality</span><span class="metric-pct">100%</span></div><div class="metric-bar-bg"><div class="metric-bar" data-width="100" style="background:linear-gradient(90deg,#c8f06e,#a0ff60)"></div></div></div>
+    <div class="metric-row" data-delay="320"><div class="metric-label"><span data-en="⚡ Reply Speed" data-th="⚡ ความเร็วตอบกลับ">⚡ Reply Speed</span><span class="metric-pct">85%</span></div><div class="metric-bar-bg"><div class="metric-bar" data-width="85" style="background:linear-gradient(90deg,#ffb997,#ff8a65)"></div></div></div>
+    <div class="metric-row" data-delay="480"><div class="metric-label"><span data-en="💛 Loyalty" data-th="💛 ความซื่อสัตย์">💛 Loyalty</span><span class="metric-pct">100%</span></div><div class="metric-bar-bg"><div class="metric-bar" data-width="100" style="background:linear-gradient(90deg,#ff6b6b,#ff4444)"></div></div></div>
+    <div class="metric-row" data-delay="640"><div class="metric-label"><span data-en="🧠 Emotional IQ" data-th="🧠 ความฉลาดทางอารมณ์">🧠 Emotional IQ</span><span class="metric-pct">90%</span></div><div class="metric-bar-bg"><div class="metric-bar" data-width="90" style="background:linear-gradient(90deg,#67e8f9,#3b82f6)"></div></div></div>
+    <p class="metric-note" data-en="*Data source: Trust me bro, I am literally the GOAT." data-th="*แหล่งข้อมูล: เชื่อผมก่อนนะ ผมคือ GOAT จริงๆ">*Data source: Trust me bro, I am literally the GOAT.</p>
+  </div>
+</div>
+
+<!-- ======================== SLIDE 4 GREEN FLAGS ======================== -->
+<div class="slide" id="s4">
+  <p class="slide-label" data-en="// slide 03 — verified green flags" data-th="// สไลด์ 03 — green flag รับรองแล้ว">// slide 03 — verified green flags</p>
+  <h2 class="slide-title" data-en="Green Flags Only 🚩→🟢" data-th="Green Flag เท่านั้น 🚩→🟢">Green Flags Only 🚩→🟢</h2>
+  <div class="flags-grid">
+    <div class="flag-card"><span class="flag-icon">💬</span><p class="flag-label" data-en="Actually Communicates" data-th="สื่อสารได้จริง">Actually Communicates</p><p class="flag-desc" data-en="No guessing games. I say what I mean. What a concept." data-th="ไม่มีเกมส์เดา พูดตรงๆ เสมอ">No guessing games. I say what I mean. What a concept.</p></div>
+    <div class="flag-card"><span class="flag-icon">🧹</span><p class="flag-label" data-en="Emotionally Available" data-th="พร้อมทางอารมณ์">Emotionally Available</p><p class="flag-desc" data-en="Not an avoidant. Not emotionally unavailable. Actually present." data-th="ไม่หนี ไม่หลบ อยู่ตรงนี้จริงๆ">Not an avoidant. Not emotionally unavailable. Actually present.</p></div>
+    <div class="flag-card"><span class="flag-icon">🐕</span><p class="flag-label" data-en="Dog Approved™" data-th="ผ่านการรับรองจากหมา™">Dog Approved™</p><p class="flag-desc" data-en="Most reliable character reference in the universe." data-th="อ้างอิงที่น่าเชื่อถือที่สุดในจักรวาล">Most reliable character reference in the universe.</p></div>
+    <div class="flag-card"><span class="flag-icon">🎂</span><p class="flag-label" data-en="Remembers The Details" data-th="จำรายละเอียดได้">Remembers The Details</p><p class="flag-desc" data-en="Your fave order. Your birthday. Your random rants." data-th="เมนูที่ชอบ วันเกิด เรื่องเล่าแบบสุ่มๆ">Your fave order. Your birthday. Your random rants.</p></div>
+    <div class="flag-card"><span class="flag-icon">🌙</span><p class="flag-label" data-en="Good Morning Texter" data-th="ส่ง Good Morning จริง">Good Morning Texter</p><p class="flag-desc" data-en="Not a ghost. Not a slow fader. Consistent fr." data-th="ไม่ ghost ไม่หาย สม่ำเสมอจริงๆ">Not a ghost. Not a slow fader. Consistent fr.</p></div>
+    <div class="flag-card"><span class="flag-icon">😂</span><p class="flag-label" data-en="Actually Funny" data-th="ตลกจริงๆ">Actually Funny</p><p class="flag-desc" data-en="Not haha funny. Real ugly-laugh funny." data-th="ไม่ใช่ตลกแบบ haha แต่ตลกจนหน้าเหี้ยน">Not haha funny. Real ugly-laugh funny.</p></div>
+  </div>
+</div>
+
+<!-- ======================== SLIDE 5 PERKS ======================== -->
+<div class="slide" id="s5">
+  <p class="slide-label" data-en="// slide 04 — exclusive benefits" data-th="// สไลด์ 04 — สิทธิ์พิเศษ">// slide 04 — exclusive benefits</p>
+  <h2 class="slide-title" data-en="Exclusive Perks (No Cap) 🎁" data-th="สิทธิ์พิเศษ (ไม่โกหก) 🎁">Exclusive Perks (No Cap) 🎁</h2>
+  <div class="perks-grid">
+    <div class="perk-card"><span class="perk-emoji">📸</span><p class="perk-name" data-en="Top-Tier IG Husband" data-th="ช่างภาพระดับท็อป">Top-Tier IG Husband</p><p class="perk-desc" data-en="Angles. Lighting. Composition. Your feed is about to go crazy. Paparazzi? We don't need them." data-th="มุม แสง องค์ประกอบ Feed จะปัง Paparazzi ไม่ต้องจ้าง">Angles. Lighting. Composition. Your feed is about to go crazy. Paparazzi? We don't need them.</p></div>
+    <div class="perk-card"><span class="perk-emoji">🍜</span><p class="perk-name" data-en="The Foodie Plug" data-th="Plug ร้านอาหาร">The Foodie Plug</p><p class="perk-desc" data-en="Hidden gems only. Google Maps is stacked. We never eat mid food. Ever. This is a promise." data-th="ร้านลับเท่านั้น Google Maps เต็มแล้ว ไม่มีวันกิน mid เด็ดขาด">Hidden gems only. Google Maps is stacked. We never eat mid food. Ever. This is a promise.</p></div>
+    <div class="perk-card"><span class="perk-emoji">🛡️</span><p class="perk-name" data-en="Zero Drama Zone" data-th="โซน Zero Drama">Zero Drama Zone</p><p class="perk-desc" data-en="Peace of mind and high-quality laughter. Red flags? Never heard of them. Safe space only." data-th="สงบสุขในใจ หัวเราะคุณภาพสูง Red flag? ไม่รู้จัก">Peace of mind and high-quality laughter. Red flags? Never heard of them. Safe space only.</p></div>
+    <div class="perk-card"><span class="perk-emoji">🎵</span><p class="perk-name" data-en="Elite Playlist Curator" data-th="Curator เพลย์ลิสต์ระดับ Elite">Elite Playlist Curator</p><p class="perk-desc" data-en="No top-50 basic stuff. Deep cuts. Rare finds. Your AUX is in safe hands." data-th="ไม่มี top-50 ธรรมดา เพลงหายาก เพลงลึก AUX อยู่ในมือที่ถูกต้อง">No top-50 basic stuff. Deep cuts. Rare finds. Your AUX is in safe hands.</p></div>
+  </div>
+</div>
+
+<!-- ======================== SLIDE 6 TIERS ======================== -->
+<div class="slide" id="s6">
+  <p class="slide-label" data-en="// slide 05 — relationship packages" data-th="// สไลด์ 05 — แพ็คเกจความสัมพันธ์">// slide 05 — relationship packages</p>
+  <h2 class="slide-title" data-en="Pick Your Package 💰" data-th="เลือกแพ็คเกจของคุณ 💰">Pick Your Package 💰</h2>
+  <div class="tiers-row">
+    <div class="tier-card tier-bronze">
+      <span class="tier-name">🥉</span>
+      <p class="tier-label" data-en="Bronze" data-th="Bronze">Bronze</p>
+      <p class="tier-sub" data-en="Casual Era" data-th="ยุค Casual">Casual Era</p>
+      <p class="tier-feature" data-en="✓ Memes on demand&#10;✓ Vibes check-ins&#10;✓ Elite playlists&#10;✓ Food recs always&#10;✗ No drama (ever)" data-th="✓ มีมมีมากมาย&#10;✓ ทำกับข้าวเก่ง&#10;✓ เพลย์ลิสต์ระดับท็อป&#10;✓ แนะนำร้านอาหาร&#10;✗ ดราม่าไม่รวม">✓ Memes on demand<br>✓ Vibes check-ins<br>✓ Elite playlists<br>✓ Food recs always<br>✗ No drama (ever)</p>
+    </div>
+    <div class="tier-card tier-silver">
+      <span class="tier-name">🥈</span>
+      <p class="tier-label" data-en="Silver" data-th="Silver">Silver</p>
+      <p class="tier-sub" data-en="Official Boo Era" data-th="ยุค Official Boo">Official Boo Era</p>
+      <p class="tier-feature" data-en="✓ Everything in Bronze&#10;✓ Full IG husband mode&#10;✓ Hidden gem dinners&#10;✓ Meet the dog&#10;✓ Morning texts daily" data-th="✓ ทุกอย่างใน Bronze&#10;✓ IG husband เต็มโหมด&#10;✓ Dinner ร้านลับ&#10;✓ ได้เจอหมา&#10;✓ Morning text ทุกวัน">✓ Everything in Bronze<br>✓ Full IG husband mode<br>✓ Hidden gem dinners<br>✓ Meet the dog<br>✓ Morning texts daily</p>
+    </div>
+    <div class="tier-card tier-gold">
+      <span class="tier-name">🏆</span>
+      <p class="tier-label" data-en="Gold ⭐" data-th="Gold ⭐">Gold ⭐</p>
+      <p class="tier-sub" data-en="Power Couple Arc" data-th="ยุค Power Couple">Power Couple Arc</p>
+      <p class="tier-feature" data-en="✓ Everything in Silver&#10;✓ Main character status&#10;✓ Iconic duo energy&#10;✓ Lore: FOREVER&#10;✓ Certified soulmate tier" data-th="✓ ทุกอย่างใน Silver&#10;✓ Main character status&#10;✓ พลังงาน Iconic duo&#10;✓ Lore: FOREVER&#10;✓ คู่ชีวิตที่แท้จริง">✓ Everything in Silver<br>✓ Main character status<br>✓ Iconic duo energy<br>✓ Lore: FOREVER<br>✓ Certified soulmate tier</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SLIDE 7 COMPARE ======================== -->
+<div class="slide" id="s7">
+  <p class="slide-label" data-en="// slide 06 — vs the competition" data-th="// สไลด์ 06 — vs คู่แข่ง">// slide 06 — vs the competition</p>
+  <h2 class="slide-title" data-en="The Comparison Nobody Asked For 📋" data-th="การเปรียบเทียบที่ไม่มีใครขอ 📋">The Comparison Nobody Asked For 📋</h2>
+  <table class="compare-table">
+    <thead><tr>
+      <th data-en="Capability" data-th="ความสามารถ">Capability</th>
+      <th data-en="Me (The GOAT) 🐐" data-th="ผม (GOAT) 🐐">Me (The GOAT) 🐐</th>
+      <th data-en="The Other Guys 💀" data-th="คนอื่นๆ 💀">The Other Guys 💀</th>
+    </tr></thead>
+    <tbody>
+      <tr><td data-en="Vibe Check" data-th="เช็คไวบ์">Vibe Check</td><td data-en="Immaculate fr" data-th="สมบูรณ์แบบสุดๆ">Immaculate fr</td><td data-en="Sus at best" data-th="น่าสงสัยมาก">Sus at best</td></tr>
+      <tr><td data-en="Conversation" data-th="การสนทนา">Conversation</td><td data-en="Deep and Meaningful" data-th="ลึกซึ้งและมีความหมาย">Deep and Meaningful</td><td data-en='"hru?" "wyd?" 😭' data-th='"เป็นไง?" "ทำอะไรอยู่?" 😭'>"hru?" "wyd?" 😭</td></tr>
+      <tr><td data-en="Playlist" data-th="เพลย์ลิสต์">Playlist</td><td data-en="Elite Taste Only" data-th="รสนิยมระดับ Elite">Elite Taste Only</td><td data-en="Top 50 Basic" data-th="Top 50 ธรรมดา">Top 50 Basic</td></tr>
+      <tr><td data-en="Ghosting Risk" data-th="ความเสี่ยงในการ Ghost">Ghosting Risk</td><td data-en="0% (I text first)" data-th="0% (ผม text ก่อน)">0% (I text first)</td><td data-en="Left on read 2023" data-th="อ่านแล้วหาย 2023">Left on read 2023</td></tr>
+      <tr><td data-en="Main Character?" data-th="Main Character?">Main Character?</td><td data-en="Certified ✅" data-th="รับรองแล้ว ✅">Certified ✅</td><td data-en="NPC energy ❌" data-th="พลังงาน NPC ❌">NPC energy ❌</td></tr>
+      <tr><td data-en="Red Flags" data-th="Red Flag">Red Flags</td><td data-en="None detected 🟢" data-th="ไม่พบเลย 🟢">None detected 🟢</td><td data-en="Extensive collection 🚩" data-th="สะสมไว้เยอะมาก 🚩">Extensive collection 🚩</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ======================== SLIDE 8 TESTIMONIAL ======================== -->
+<div class="slide" id="s8">
+  <p class="slide-label" data-en="// slide 07 — expert review" data-th="// สไลด์ 07 — รีวิวจากผู้เชี่ยวชาญ">// slide 07 — expert review</p>
+  <h2 class="slide-title" data-en="Expert Testimonials 💬" data-th="รีวิวจากผู้เชี่ยวชาญ 💬">Expert Testimonials 💬</h2>
+  <div class="testimonial-avatar">🐶</div><br>
+  <p class="testimonial-quote" data-en='"He is actually built different. Best human for belly rubs and high-quality snacks. 10/10 would recommend to absolutely anyone."' data-th='"นุดคนนี้ต่างจากนุดคนอื่นจริงๆ เป็นนุดที่ดีที่สุดสำหรับการนวดท้องและขนมคุณภาพสูง 10/10 แนะนำให้ทุกคนเลย"'>"He is actually built different. Best human for belly rubs and high-quality snacks. 10/10 would recommend to absolutely anyone."</p>
+  <p class="testimonial-source" data-en="— My Professional Consultant (The Dog) • Verified ✓" data-th="— ที่ปรึกษาอาชีพของผม (หมา) • ยืนยันแล้ว ✓">— My Professional Consultant (The Dog) • Verified ✓</p>
+  <p style="font-size:10px;color:rgba(255,255,255,0.17);margin-top:18px" data-en="If the dog approves, it is over for the competition." data-th="ถ้าหมารับรองแล้ว คู่แข่งก็แพ้ไปแล้ว">If the dog approves, it is over for the competition.</p>
+</div>
+
+<!-- ======================== SLIDE 9 FAQ ======================== -->
+<div class="slide" id="s9">
+  <p class="slide-label" data-en="// slide 08 — frequently asked questions" data-th="// สไลด์ 08 — คำถามที่พบบ่อย">// slide 08 — frequently asked questions</p>
+  <h2 class="slide-title" data-en="FAQ (Real Talk) 🎤" data-th="FAQ (พูดตรงๆ) 🎤">FAQ (Real Talk) 🎤</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <p class="faq-q" data-en="Q: Are you actually this confident or just performing?" data-th="ถาม: มั่นใจจริงหรือแค่แกล้งทำ?">Q: Are you actually this confident or just performing?</p>
+      <p class="faq-a" data-en='A: <span class="hi">Performing?</span> Bestie this is a pitch deck. Of course it is theatrical. But the green flags? Those are very real.' data-th='ตอบ: <span class="hi">แกล้งทำ?</span> นี่คือ pitch deck นะ แน่นอนว่ามันต้องดูดี แต่ green flags? ของจริงทั้งหมด'>A: <span class="hi">Performing?</span> Bestie this is a pitch deck. Of course it is theatrical. But the green flags? Those are very real.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q" data-en="Q: What are your actual flaws?" data-th="ถาม: มีข้อบกพร่องจริงๆ ไหม?">Q: What are your actual flaws?</p>
+      <p class="faq-a" data-en='A: I over-research restaurants. I send <span class="hi">too many memes</span>. I get emotionally attached to TV characters. These are features not bugs.' data-th='ตอบ: ผม research ร้านอาหารมากเกินไป ผมส่ง<span class="hi">มีมเยอะมาก</span> ผมชอบกิน นั่นคือ feature ไม่ใช่ bug'>A: I over-research restaurants. I send <span class="hi">too many memes</span>. I get emotionally attached to TV characters. These are features not bugs.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q" data-en="Q: Is the dog actually a professional consultant?" data-th="ถาม: หมาเป็นที่ปรึกษาจริงๆ เหรอ?">Q: Is the dog actually a professional consultant?</p>
+      <p class="faq-a" data-en='A: The dog has never been wrong about a person. That is a <span class="hi">100% accuracy rate</span>. What more credentials do you need.' data-th='ตอบ: หมาไม่เคยผิดเกี่ยวกับคนเลย นั่นคือ<span class="hi">อัตราถูกต้อง 100%</span> ต้องการหลักฐานอะไรอีก'>A: The dog has never been wrong about a person. That is a <span class="hi">100% accuracy rate</span>. What more credentials do you need.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q" data-en="Q: Will I regret saying yes?" data-th="ถาม: จะเสียใจถ้าตอบว่าใช่ไหม?">Q: Will I regret saying yes?</p>
+      <p class="faq-a" data-en='A: <span class="hi">Statistically? No.</span> The metrics speak for themselves. Plus the dog approved. Case closed bestie.' data-th='ตอบ: <span class="hi">ในเชิงสถิติ? ไม่</span> ตัวเลขพูดแทนตัวเอง แถมหมายังรับรองอีก ปิดเคสได้เลย'>A: <span class="hi">Statistically? No.</span> The metrics speak for themselves. Plus the dog approved. Case closed bestie.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== SLIDE 10 ROADMAP ======================== -->
+<div class="slide" id="s10">
+  <p class="slide-label" data-en="// slide 09 — the master plan" data-th="// สไลด์ 09 — แผนการ">// slide 09 — the master plan</p>
+  <h2 class="slide-title" data-en="The Date Roadmap 🗺️" data-th="แผนการนัดเดต 🗺️">The Date Roadmap 🗺️</h2>
+  <div class="roadmap" id="roadmap">
+    <div class="road-step"><div class="step-num">1</div><div><p class="step-title" data-en="The Initial Hangout" data-th="Hangout ครั้งแรก">The Initial Hangout</p><p class="step-desc" data-en="Aesthetic coffee spot. My treat. Good vibes guaranteed. No awkward silences — I am a conversationalist." data-th="ร้านกาแฟ Aesthetic ผมเลี้ยงแน่นอน ไวบ์ดีรับประกัน ไม่มีความเงียบ — ผมคุยเก่ง">Aesthetic coffee spot. My treat. Good vibes guaranteed. No awkward silences — I am a conversationalist.</p></div></div>
+    <div class="road-line"></div>
+    <div class="road-step"><div class="step-num">2</div><div><p class="step-title" data-en="The Expansion" data-th="การขยายแผน">The Expansion</p><p class="step-desc" data-en="A cool activity we both vibe with. Adventure? Art? Food tour? Random drive? The world is ours fr." data-th="กิจกรรมที่เราทั้งคู่ชอบ ผจญภัย? ศิลปะ? ทัวร์อาหาร? ขับรถไปเรื่อย? โลกนี้เป็นของเรา">A cool activity we both vibe with. Adventure? Art? Food tour? Random drive? The world is ours fr.</p></div></div>
+    <div class="road-line"></div>
+    <div class="road-step"><div class="step-num">3</div><div><p class="step-title" data-en="The Official Arc" data-th="Arc อย่างเป็นทางการ">The Official Arc</p><p class="step-desc" data-en="Couple era unlocked. IG game elevated. Dog finally has a new best friend." data-th="Couple era เปิดแล้ว IG game ยกระดับแล้ว หมาได้เพื่อนสนิทใหม่แล้ว">Couple era unlocked. IG game elevated. Dog finally has a new best friend.</p></div></div>
+    <div class="road-line"></div>
+    <div class="road-step"><div class="step-num">4</div><div><p class="step-title" data-en="The End Game" data-th="เป้าหมายสูงสุด">The End Game</p><p class="step-desc" data-en="Most iconic couple on the planet. Main characters. Power couple arc. Lore: maximum. ✨" data-th="คู่ที่ iconic ที่สุดในโลก Main characters Power couple arc Lore: maximum ✨">Most iconic couple on the planet. Main characters. Power couple arc. Lore: maximum. ✨</p></div></div>
+  </div>
+</div>
+
+<!-- ======================== SLIDE 11 RISK DISCLOSURE ======================== -->
+<div class="slide" id="s11">
+  <p class="slide-label" data-en="// slide 10 — legal disclaimer (kinda)" data-th="// สไลด์ 10 — ข้อสงวนสิทธิ์ (ประมาณนั้น)">// slide 10 — legal disclaimer (kinda)</p>
+  <h2 class="slide-title" data-en="Risk Disclosure ⚠️" data-th="การเปิดเผยความเสี่ยง ⚠️">Risk Disclosure ⚠️</h2>
+  <div class="disclaimer-box">
+    <p class="disclaimer-title" data-en="⚠️ Important Notice Before Proceeding" data-th="⚠️ ประกาศสำคัญก่อนดำเนินการ">⚠️ Important Notice Before Proceeding</p>
+    <p class="disclaimer-text" data-en='By choosing to date this individual, you acknowledge the following potential side effects: <strong>Increased happiness levels</strong> (may be overwhelming at first). <span class="d-green">Dangerously good food</span> at all times. <strong>Spontaneous laughter</strong> at inappropriate moments. A feed that goes <span class="d-green">completely insane</span>. Development of a deep emotional bond with one dog. <span class="d-peach">Possible addiction</span> to meme quality above market standard. <strong>Main character syndrome</strong> — warning: highly contagious. Side effects are permanent and non-refundable. Past vibes are indicative of future vibes.' data-th='ด้วยการเลือกที่จะคบกับบุคคลนี้ คุณรับทราบผลข้างเคียงที่อาจเกิดขึ้น: <strong>ระดับความสุขที่เพิ่มขึ้น</strong> (อาจหนักในตอนแรก). <span class="d-green">อาหารดีอย่างอันตราย</span> ตลอดเวลา. <strong>หัวเราะกะทันหัน</strong> ในเวลาที่ไม่เหมาะสม. Feed ที่ <span class="d-green">ปังสุดๆ</span>. พัฒนาความผูกพันกับหมาหนึ่งตัว. <span class="d-peach">อาจติด</span>มีมคุณภาพเกินมาตรฐาน. <strong>Main character syndrome</strong> — คำเตือน: ติดต่อได้สูง. ผลข้างเคียงถาวรและไม่สามารถขอคืนได้. ไวบ์ในอดีตเป็นตัวบ่งชี้ไวบ์ในอนาคต'>By choosing to date this individual, you acknowledge the following potential side effects: <strong>Increased happiness levels</strong> (may be overwhelming at first). <span class="d-green">Dangerously good food</span> at all times. <strong>Spontaneous laughter</strong> at inappropriate moments. A feed that goes <span class="d-green">completely insane</span>. Development of a deep emotional bond with one dog. <span class="d-peach">Possible addiction</span> to meme quality above market standard. <strong>Main character syndrome</strong> — warning: highly contagious. Side effects are permanent and non-refundable. Past vibes are indicative of future vibes.</p>
+    <p class="disclaimer-asterisk" data-en="*This document has been reviewed and approved by The Dog." data-th="*เอกสารนี้ได้รับการตรวจสอบและอนุมัติโดย หมา">*This document has been reviewed and approved by The Dog.</p>
+  </div>
+</div>
+
+<!-- ======================== SLIDE 12 CTA ======================== -->
+<div class="slide" id="s12">
+  <p class="slide-label" data-en="// slide 11 — the moment of truth" data-th="// สไลด์ 11 — ช่วงเวลาแห่งความจริง">// slide 11 — the moment of truth</p>
+  <h2 class="cta-title" data-en="SO...<br>BET?" data-th="งั้น...<br>ตกลงไหม?">SO...<br>BET?</h2>
+  <p class="cta-sub" data-en="Don't let this opportunity slip. The aura is peak. The vibes? Right. The potential? Infinite." data-th="อย่าปล่อยโอกาสนี้ไป ออร่าอยู่ในจุดสูงสุด ไวบ์? ถูกต้อง ศักยภาพ? ไม่จำกัด">Don't let this opportunity slip. The aura is peak. The vibes? Right. The potential? Infinite.</p>
+  <div>
+    <button class="btn-yes" onclick="goFinal()" data-en="BET. I'm in 🔥" data-th="ตกลง! ฉันเอาด้วย 🔥">BET. I'm in 🔥</button>
+    <button class="btn-no" onclick="handleNo(1)" data-en="nah 😐" data-th="ไม่เอา 😐">nah 😐</button>
+  </div>
+</div>
+
+<!-- ============================== NO FLOW ============================== -->
+
+<!-- NO 1 -->
+<div class="slide no-slide" id="sno1">
+  <span class="meme-emoji">😭</span>
+  <h2 class="no-title" data-en="Wait, wait, wait." data-th="เดี๋ยว เดี๋ยว เดี๋ยว">Wait, wait, wait.</h2>
+  <p class="no-sub" data-en="you sure about that bestie?<br>like... <em>actually</em> sure?<br>take your time. no rush at all." data-th="มั่นใจแล้วใช่ไหม?<br>มั่นใจ<em>จริงๆ</em> ใช่ป่ะ?<br>ค่อยๆ คิดนะ ไม่รีบเลย">you sure about that bestie?<br>like... <em>actually</em> sure?<br>take your time. no rush at all.</p>
+  <div class="no-btn-row">
+    <button class="btn-yes" onclick="goFinal()" data-en="ok fine bet 😅" data-th="โอเค ตกลง 😅">ok fine bet 😅</button>
+    <button class="btn-no s1" onclick="handleNo(2)" data-en="still no 🙃" data-th="ยังไม่เอา 🙃">still no 🙃</button>
+  </div>
+</div>
+
+<!-- NO 2 -->
+<div class="slide no-slide" id="sno2">
+  <span class="meme-emoji">💀</span>
+  <h2 class="no-title" data-en="bro. WHAT." data-th="อ้าว. หา.">bro. WHAT.</h2>
+  <p class="no-sub" data-en="the dog endorsement wasn't enough???<br>the 95% rizz wasn't enough???<br>the PLAYLIST wasn't enough???<br>ok i'm not crying you're crying." data-th="รีวิวจากหมายังไม่พอเหรอ???<br>rizz 95% ยังไม่พอเหรอ???<br>เพลย์ลิสต์ระดับ Elite ยังไม่พอเหรอ???<br>โอเค ผมไม่ได้ร้องไห้นะ คุณต่างหาก">the dog endorsement wasn't enough???<br>the 95% rizz wasn't enough???<br>the PLAYLIST wasn't enough???<br>ok i'm not crying you're crying.</p>
+  <div class="no-btn-row">
+    <button class="btn-yes" onclick="goFinal()" data-en="okay okay BET 😩" data-th="โอเค โอเค ตกลง 😩">okay okay BET 😩</button>
+    <button class="btn-no s2" onclick="handleNo(3)" data-en="i- no..." data-th="ฉัน- ไม่...">i- no...</button>
+  </div>
+</div>
+
+<!-- NO 3: Fake loading bar -->
+<div class="slide no-slide" id="sno3">
+  <span class="meme-emoji">🗿</span>
+  <h2 class="no-title" data-en="Interesting." data-th="น่าสนใจ">Interesting.</h2>
+  <p class="no-sub" data-en="let me just run a quick scan." data-th="ให้ผม scan ก่อนนะ">let me just run a quick scan.</p>
+  <p class="fake-load-label" data-en="ANALYZING DECISION-MAKING PROCESS..." data-th="กำลังวิเคราะห์การตัดสินใจ...">ANALYZING DECISION-MAKING PROCESS...</p>
+  <div class="fake-load-bar"><div class="fake-load-fill" id="fakeLoad"></div></div>
+  <p id="fakeLoadResult" style="font-size:11px;color:rgba(255,255,255,0.28);min-height:18px;margin-bottom:16px"></p>
+  <div class="no-btn-row">
+    <button class="btn-yes" onclick="goFinal()" data-en="fine. YES. happy now? 😭" data-th="โอเค ใช่ แฮปปี้แล้วใช่ไหม 😭">fine. YES. happy now? 😭</button>
+    <button class="btn-no s3" onclick="handleNo(4)" data-en="..." data-th="...">...</button>
+  </div>
+</div>
+
+<!-- NO 4: Dog reinforcements -->
+<div class="slide no-slide" id="sno4">
+  <span style="font-size:62px;margin-bottom:12px;display:block">😤</span>
+  <h2 class="no-title" data-en="calling reinforcements." data-th="กำลังเรียกกำลังเสริม">calling reinforcements.</h2>
+  <p class="no-sub" data-en="stand by." data-th="รอสักครู่">stand by.</p>
+  <div style="font-size:68px;animation:pop 0.4s ease 0.6s backwards">🐶</div>
+  <p style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--green);margin:12px 0" data-en='"please reconsider. i vouch."' data-th='"นุด
+  ลองคิดใหม่นะ ผมการันตีว่าดีแน่นอน"'>"please reconsider. i vouch."</p>
+  <p style="font-size:10px;color:var(--purple);margin-bottom:26px;letter-spacing:1px" data-en="— The Dog (Official Character Reference)" data-th="— หมา (อ้างอิงตัวละครอย่างเป็นทางการ)">— The Dog (Official Character Reference)</p>
+  <div class="no-btn-row">
+    <button class="btn-yes" onclick="goFinal()" data-en="ok fine FOR THE DOG 🐶" data-th="โอเค เพราะหมา 🐶">ok fine FOR THE DOG 🐶</button>
+    <button class="btn-no s3" onclick="handleNo(5)" data-en="sry doggo 😔" data-th="โทษทีหมา 😔">sry doggo 😔</button>
+  </div>
+</div>
+
+<!-- NO 5: Negotiate / extra perks -->
+<div class="slide no-slide" id="sno5">
+  <span style="font-size:62px;margin-bottom:12px;display:block;animation:wiggle 0.4s infinite">😤</span>
+  <h2 class="no-title" data-en="ok. NEGOTIATE TIME." data-th="โอเค. ถึงเวลาต่อรอง">ok. NEGOTIATE TIME.</h2>
+  <p class="no-sub" data-en="pick ONE extra perk. final offer. non negotiable. (is negotiable.)" data-th="เลือก perk พิเศษอีก 1 อย่าง ออฟเฟอร์สุดท้าย ไม่ต่อรอง. (ต่อรองได้.)">pick ONE extra perk. final offer. non negotiable. (is negotiable.)</p>
+  <div class="bargain-grid">
+    <div class="bargain-card"><strong data-en="Lifetime Snack Supply" data-th="ขนมตลอดชีวิต">Lifetime Snack Supply</strong><span data-en="Premium tier. No cap." data-th="ระดับพรีเมียม ไม่โกหก">Premium tier. No cap.</span></div>
+    <div class="bargain-card"><strong data-en="Unlimited Adventure Fund" data-th="ทุนผจญภัยไม่จำกัด">Unlimited Adventure Fund</strong><span data-en="fr. like actually fr." data-th="จริงๆ นะ">fr. like actually fr.</span></div>
+    <div class="bargain-card"><strong data-en="Dog Co-Parenting" data-th="เลี้ยงหมาด้วยกัน">Dog Co-Parenting</strong><span data-en="The ultimate unlock." data-th="unlock สูงสุด">The ultimate unlock.</span></div>
+    <div class="bargain-card"><strong data-en="Meme Priority Access" data-th="มีมพิเศษเฉพาะคุณ">Meme Priority Access</strong><span data-en="You get the best ones first." data-th="คุณได้ก่อนใคร">You get the best ones first.</span></div>
+  </div>
+  <div class="no-btn-row" style="margin-top:14px">
+    <button class="btn-yes" onclick="goFinal()" data-en="ok with ALL of those 😭" data-th="โอเค เอาทั้งหมดเลย 😭">ok with ALL of those 😭</button>
+    <button class="btn-no s4" onclick="sessionStorage.setItem('onSno6','true');handleNo(6)" data-en="still no 😶" data-th="ยังไม่ 😶">still no 😶</button>
+  </div>
+</div>
+
+<!-- NO 6: No button is on strike — final -->
+<div class="slide no-slide" id="sno6">
+  <span style="font-size:62px;margin-bottom:14px;display:block">😶‍🌫️</span>
+  <h2 class="no-title" style="font-size:clamp(24px,5vw,52px)" data-en='the "no" button<br>has resigned.' data-th='ปุ่ม "ไม่"<br>ลาออกแล้ว'>the "no" button<br>has resigned.</h2>
+  <p class="no-sub" data-en='it submitted a formal resignation letter.<br>effective immediately.<br>it said "i tried my best. i cannot do this anymore."<br>HR accepted it.<br>the only remaining option is saying yes.' data-th='มันยื่นหนังสือลาออกอย่างเป็นทางการแล้ว<br>มีผลทันที<br>มันบอกว่า "ผมพยายามสุดชีวิตแล้ว ทำต่อไปไม่ไหว"<br>HR รับหนังสือแล้ว<br>ตัวเลือกที่เหลืออยู่เดียวคือตอบว่าใช่'>it submitted a formal resignation letter.<br>effective immediately.<br>it said "i tried my best. i cannot do this anymore."<br>HR accepted it.<br>the only remaining option is saying yes.</p>
+  <button class="btn-yes" style="font-size:17px;padding:19px 54px;animation:pulse 1.1s infinite" onclick="goFinal()" data-en="ok FINE. BET. LET'S GOOO 🔥" data-th="โอเค ตกลง ไปเลย 🔥">ok FINE. BET. LET'S GOOO 🔥</button>
+  <p style="font-size:9px;color:rgba(255,255,255,0.11);margin-top:16px" data-en="(there is no other button. i checked three times. it is gone.)" data-th="(ไม่มีปุ่มอื่นแล้ว ผมเช็คสามรอบแล้ว มันหายไปแล้ว)">(there is no other button. i checked three times. it is gone.)</p>
+</div>
+
+<!-- ======================== FINAL ======================== -->
+<div class="slide" id="sfinal">
+  <div id="confettiZone" style="font-size:44px;letter-spacing:7px;margin-bottom:14px;animation:pop 0.3s ease">🎉✨🔥💜🎊🐐💅</div>
+  <h2 class="final-title" data-en="IT'S<br>GIVING!" data-th="ปัง<br>มากๆ!">IT'S<br>GIVING!</h2>
+  <p class="final-sub" data-en="iconic duo energy: DETECTED ✅<br>power couple arc: UNLOCKED ✅<br>main character status: CONFIRMED ✅<br>dog approval rating: 10/10 ✅" data-th="พลังงาน iconic duo: ตรวจพบแล้ว ✅<br>Power couple arc: เปิดแล้ว ✅<br>Main character status: ยืนยันแล้ว ✅<br>คะแนนรับรองจากหมา: 10/10 ✅">iconic duo energy: DETECTED ✅<br>power couple arc: UNLOCKED ✅<br>main character status: CONFIRMED ✅<br>dog approval rating: 10/10 ✅</p>
+  <p class="final-note" data-en="📍 First stop: that aesthetic coffee spot. My treat. No debate." data-th="📍 จุดแรก: ร้านกาแฟ Aesthetic ผมเลี้ยง ไม่ต้องเถียง">📍 First stop: that aesthetic coffee spot. My treat. No debate.</p>
+</div>
+
+<!-- Refresh toast -->
+<div class="refresh-toast" id="refreshToast" style="display:none">
+  <span class="refresh-toast-emoji">😏</span>
+  <span class="refresh-toast-text" id="refreshToastText">คิดว่ากด refresh แล้วจะหายหรอ<br>มันยังอยู่นะ 🙂</span>
+</div>
+
+<script>
+// cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+
+// lang
+let lang = 'en';
+function toggleLang() {
+  lang = lang === 'en' ? 'th' : 'en';
+  document.getElementById('langBtn').textContent = lang === 'en' ? '🇹🇭 ภาษาไทย' : '🇬🇧 English';
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const v = el.getAttribute('data-' + lang);
+    if (v) el.innerHTML = v;
+  });
+}
+
+// slides
+const mainIds = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12'];
+const noIds   = ['sno1','sno2','sno3','sno4','sno5','sno6'];
+let cur = 0, inNoFlow = false;
+
+const dotsEl = document.getElementById('navDots');
+mainIds.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => { if (!inNoFlow) goTo(i); };
+  dotsEl.appendChild(d);
+});
+
+function hideAll() { document.querySelectorAll('.slide').forEach(s => s.classList.remove('active')); }
+
+function updateUI() {
+  const pct = ((cur + 1) / mainIds.length) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+  document.querySelectorAll('.nav-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+  document.getElementById('prevBtn').disabled = cur === 0 || inNoFlow;
+  document.getElementById('nextBtn').disabled = cur >= mainIds.length - 1 || inNoFlow;
+}
+
+function goTo(i) {
+  if (i < 0 || i >= mainIds.length) return;
+  hideAll(); cur = i;
+  document.getElementById(mainIds[i]).classList.add('active');
+  updateUI();
+  if (mainIds[i] === 's3') animateMetrics();
+  if (mainIds[i] === 's10') animateRoadmap();
+}
+
+function changeSlide(dir) { goTo(cur + dir); }
+
+function handleNo(stage) {
+  inNoFlow = true;
+  hideAll();
+  document.getElementById('prevBtn').disabled = true;
+  document.getElementById('nextBtn').disabled = true;
+  document.getElementById(noIds[stage - 1]).classList.add('active');
+  if (stage === 3) {
+    setTimeout(() => {
+      const fill = document.getElementById('fakeLoad');
+      if (fill) fill.style.width = '72%';
+      setTimeout(() => {
+        const res = document.getElementById('fakeLoadResult');
+        if (res) {
+          res.setAttribute('data-en', 'scan complete — result: hopelessly stubborn 🗿');
+          res.setAttribute('data-th', 'scan เสร็จสิ้น — ผลลัพธ์: ดื้อมากเป็นพิเศษ 🗿');
+          res.textContent = lang === 'th' ? 'scan เสร็จสิ้น — ผลลัพธ์: ดื้อมากเป็นพิเศษ 🗿' : 'scan complete — result: hopelessly stubborn 🗿';
+        }
+      }, 2700);
+    }, 300);
+  }
+}
+
+function goFinal() {
+  inNoFlow = false;
+  sessionStorage.removeItem('onSno6');
+  hideAll();
+  document.getElementById('sfinal').classList.add('active');
+  document.getElementById('prevBtn').disabled = true;
+  document.getElementById('nextBtn').disabled = true;
+  launchConfetti();
+}
+
+function animateMetrics() {
+  document.querySelectorAll('.metric-row').forEach((row, i) => {
+    setTimeout(() => {
+      row.classList.add('visible');
+      const b = row.querySelector('.metric-bar');
+      b.style.width = b.dataset.width + '%';
+    }, i * 180);
+  });
+}
+
+function animateRoadmap() {
+  document.querySelectorAll('.road-step').forEach((s, i) => {
+    setTimeout(() => s.classList.add('visible'), i * 220);
+  });
+}
+
+function launchConfetti() {
+  const emojis = ['🎉','✨','💜','🔥','💫','🌟','💅','🎊','🐐','💯','🍀','🦋','🌙'];
+  const c = document.getElementById('sfinal');
+  for (let i = 0; i < 26; i++) {
+    const el = document.createElement('div');
+    el.style.cssText = `position:absolute;font-size:${16+Math.random()*22}px;left:${Math.random()*100}%;top:-40px;pointer-events:none;animation:float ${3+Math.random()*4}s linear ${Math.random()*2.2}s forwards;opacity:0.85;z-index:1;`;
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    c.appendChild(el);
+    setTimeout(() => el.remove(), 8000);
+  }
+}
+
+// floating hero emojis
+const fe = ['💜','✨','🔥','💫','🌟','👑','💅','🐐','💯','🎵','🌙','⚡'];
+const fc = document.getElementById('floaters');
+for (let i = 0; i < 14; i++) {
+  const el = document.createElement('div');
+  el.className = 'floater';
+  el.textContent = fe[Math.floor(Math.random()*fe.length)];
+  el.style.cssText = `left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:${Math.random()*9}s;font-size:${16+Math.random()*16}px;`;
+  fc.appendChild(el);
+}
+
+document.addEventListener('keydown', e => {
+  if (inNoFlow) return;
+  if (e.key==='ArrowRight'||e.key==='ArrowDown') changeSlide(1);
+  if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   changeSlide(-1);
+});
+
+function showRefreshToast() {
+  const toast = document.getElementById('refreshToast');
+  const toastText = document.getElementById('refreshToastText');
+  const thText = 'คิดว่ากด refresh แล้วจะหายหรอ 😏<br>มันยังอยู่นะ ไม่หายไปไหนหรอก';
+  const enText = 'thought refreshing would make it disappear? 😏<br>still here. not going anywhere.';
+  toastText.innerHTML = lang === 'th' ? thText : enText;
+  toast.style.display = 'block';
+  toast.classList.remove('hiding');
+  setTimeout(() => {
+    toast.classList.add('hiding');
+    setTimeout(() => { toast.style.display = 'none'; }, 420);
+  }, 4000);
+}
+
+// Check if user refreshed while on sno6
+if (sessionStorage.getItem('onSno6') === 'true') {
+  sessionStorage.removeItem('onSno6');
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      inNoFlow = true;
+      hideAll();
+      document.getElementById('prevBtn').disabled = true;
+      document.getElementById('nextBtn').disabled = true;
+      document.getElementById('sno6').classList.add('active');
+      sessionStorage.setItem('onSno6', 'true');
+      setTimeout(showRefreshToast, 500);
+    }, 120);
+  });
+}
+
+updateUI();
+</script>
+</body>
+</html>
